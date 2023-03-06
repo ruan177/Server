@@ -1,9 +1,13 @@
 # Server
 run npm install
+
 run npm install -D
-change .env adding database user and password 
-run 
+
+change .env d 
+
 npx prisma generate  
-run npx prima studio 
+
+npx prima studio 
 for prisma interface
+
 after this steps run npm run dev
