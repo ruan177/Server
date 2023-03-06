@@ -3,7 +3,7 @@ run npm install
 
 run npm install -D
 
-change .env d 
+change .env 
 
 npx prisma generate  
 
