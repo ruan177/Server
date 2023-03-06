@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+ model User {
+  id         String       @id @default(uuid())
+  username   String
+  email      String       @unique
+  password   String
+  token      RefreshToken?
+  created_courses    Course?
+  subscribed_courses   CourseUser[]
+
+  @@map("users")
+ }
+
+ model Course {
+  id            String       @id @default(uuid())
+  name          String
+  description   String
+  author_id     String    @unique
+  author        User      @relation(fields: [author_id], references: [id])
+  body          String    @db.Text
+  subscribed_users   CourseUser[]
+
+  @@map("courses")
+  @@unique([id, author_id])
+ }
+
+
+ model CourseUser {
+  id         String       @id @default(uuid())
+  course_id  String
+  course     Course    @relation(fields: [course_id], references: [id])
+  user_id     String       @unique
+  user        User      @relation(fields: [user_id], references: [id])
+
+  @@map("courseUsers")
+
+ }
+
+ model RefreshToken {
+  id         String       @id @default(uuid())
+  expiresIn  Int
+  user_id    String       @unique
+  user       User      @relation(fields: [user_id], references: [id])
+
+  @@map("refreshToken")
+
+ }
